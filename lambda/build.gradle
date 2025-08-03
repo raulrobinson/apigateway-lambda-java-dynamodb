@@ -1,6 +1,7 @@
 plugins {
     id 'java'
     id 'com.github.johnrengelman.shadow' version '8.1.1'
+    id 'jacoco'
 }
 
 group = 'com.example'
@@ -58,6 +59,20 @@ tasks.named('shadowJar') {
     archiveFileName = "lambda.jar"
 }
 
+jacoco {
+    toolVersion = "0.8.11"
+}
+
 test {
     useJUnitPlatform()
+    finalizedBy jacocoTestReport
+}
+
+jacocoTestReport {
+    dependsOn test
+    reports {
+        xml.required = true
+        html.required = true
+        csv.required = false
+    }
 }
